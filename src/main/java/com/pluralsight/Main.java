@@ -3,15 +3,17 @@ package com.pluralsight;
 import java.util.Scanner;
 
 public class Main {
-    private static Book[] inventory = new Book[20];
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Book[] inventory = new Book[20];
+    private static final Scanner scanner = new Scanner(System.in);
 
     private static final String HOME_SCREEN_PROMPT =
-            "\n--- Warhammer Book Store ---\n" +
-                    "1. Show Available Books\n" +
-                    "2. Show Checked Out Books\n" +
-                    "3. Exit\n" +
-                    "Choose an option: ";
+            """
+                    
+                    --- Warhammer Book Store ---
+                    1. Show Available Books
+                    2. Show Checked Out Books
+                    3. Exit
+                    Choose an option:\s""";
 
     public static void main(String[] args) {
         initializeInventory();
