@@ -4,64 +4,49 @@ public class Book {
     private int id;
     private String isbn;
     private String title;
-    private boolean isCheckedout;
-    private String checkedOutto;
+    private boolean isCheckedOut;
+    private String checkedOutTo;
 
-    public Book(int id, String isbn, String title, boolean isCheckedout, String checkedOutto) {
+    public Book(int id, String isbn, String title) {
         this.id = id;
         this.isbn = isbn;
         this.title = title;
-        this.isCheckedout = isCheckedout;
-        this.checkedOutto = checkedOutto;
+        this.isCheckedOut = false;
+        this.checkedOutTo = "";
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getIsbn() {
         return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public boolean getIsCheckedOut() {
+        return isCheckedOut;
     }
 
-    public boolean isCheckedout() {
-        return isCheckedout;
+    public String getCheckedOutTo() {
+        return checkedOutTo;
     }
 
-    public void setCheckedout(boolean checkedout) {
-        isCheckedout = checkedout;
+    public void checkOut(String name) {
+        if (!isCheckedOut) {
+            isCheckedOut = true;
+            checkedOutTo = name;
+        }
     }
 
-    public String getCheckedOutto() {
-        return checkedOutto;
-    }
-
-    public void setCheckedOutto(String checkedOutto) {
-        this.checkedOutto = checkedOutto;
-    }
-
-    public void checkOut(String name){
-        this.isCheckedout = true;
-        this.checkedOutto = name;
-    }
-    public void checkIn(){
-        this.checkedOutto = "";
-        this.isCheckedout = false;
+    public void checkIn() {
+        if (isCheckedOut) {
+            isCheckedOut = false;
+            checkedOutTo = "";
+        }
     }
 }
 
