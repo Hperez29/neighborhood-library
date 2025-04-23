@@ -1,10 +1,7 @@
 package com.pluralsight;
 
-import java.util.Scanner;
-
 public class Main {
     private static final Book[] inventory = new Book[20];
-    private static final Scanner scanner = new Scanner(System.in);
 
     private static final String HOME_SCREEN_PROMPT =
             """
@@ -13,7 +10,7 @@ public class Main {
                     1. Show Available Books
                     2. Show Checked Out Books
                     3. Exit
-                    Choose an option:\s""";
+                    Choose an option:""";
 
     public static void main(String[] args) {
         initializeInventory();
@@ -46,8 +43,7 @@ public class Main {
     private static void homeScreen() {
         String choice;
         do {
-            System.out.print(HOME_SCREEN_PROMPT);
-            choice = scanner.nextLine();
+            choice = Console.readLine(HOME_SCREEN_PROMPT);
 
             switch (choice) {
                 case "1":
@@ -57,69 +53,65 @@ public class Main {
                     showCheckedOutBooks();
                     break;
                 case "3":
-                    System.out.println("Exiting... For the Emperor!");
+                    Console.println("Exiting... For the Emperor!");
                     break;
                 default:
-                    System.out.println("Invalid option. Try again.");
+                    Console.println("Invalid option. Try again.");
             }
         } while (!choice.equals("3"));
     }
 
     private static void showAvailableBooks() {
-        System.out.println("\nAvailable Books:");
+        Console.println("\nAvailable Books:");
         for (Book book : inventory) {
             if (!book.getIsCheckedOut()) {
-                System.out.printf("ID: %d | ISBN: %s | Title: %s%n",
-                        book.getId(), book.getIsbn(), book.getTitle());
+                Console.println(String.format("ID: %d | ISBN: %s | Title: %s",
+                        book.getId(), book.getIsbn(), book.getTitle()));
             }
         }
 
-        System.out.print("Enter Book ID to check out or 'X' to return: ");
-        String input = scanner.nextLine();
+        String input = Console.readLine("Enter Book ID to check out or 'X' to return: ");
         if (input.equalsIgnoreCase("X")) return;
 
         try {
             int bookId = Integer.parseInt(input);
             Book book = findBookById(bookId);
             if (book != null && !book.getIsCheckedOut()) {
-                System.out.print("Enter your name: ");
-                String name = scanner.nextLine();
+                String name = Console.readLine("Enter your name: ");
                 book.checkOut(name);
-                System.out.println("Book checked out successfully.");
+                Console.println("Book checked out successfully.");
             } else {
-                System.out.println("Book is not available or invalid ID.");
+                Console.println("Book is not available or invalid ID.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Returning to main menu.");
+            Console.println("Invalid input. Returning to main menu.");
         }
     }
 
     private static void showCheckedOutBooks() {
-        System.out.println("\nChecked Out Books:");
+        Console.println("\nChecked Out Books:");
         for (Book book : inventory) {
             if (book.getIsCheckedOut()) {
-                System.out.printf("ID: %d | ISBN: %s | Title: %s | Checked Out To: %s%n",
-                        book.getId(), book.getIsbn(), book.getTitle(), book.getCheckedOutTo());
+                Console.println(String.format("ID: %d | ISBN: %s | Title: %s | Checked Out To: %s",
+                        book.getId(), book.getIsbn(), book.getTitle(), book.getCheckedOutTo()));
             }
         }
 
-        System.out.print("Enter 'C' to check in a book or 'X' to return: ");
-        String input = scanner.nextLine();
+        String input = Console.readLine("Enter 'C' to check in a book or 'X' to return: ");
         if (input.equalsIgnoreCase("X")) return;
 
         if (input.equalsIgnoreCase("C")) {
-            System.out.print("Enter Book ID to check in: ");
             try {
-                int bookId = Integer.parseInt(scanner.nextLine());
+                int bookId = Console.readInt("Enter Book ID to check in: ");
                 Book book = findBookById(bookId);
                 if (book != null && book.getIsCheckedOut()) {
                     book.checkIn();
-                    System.out.println("Book checked in successfully.");
+                    Console.println("Book checked in successfully.");
                 } else {
-                    System.out.println("Invalid ID or book is not checked out.");
+                    Console.println("Invalid ID or book is not checked out.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input.");
+                Console.println("Invalid input.");
             }
         }
     }
